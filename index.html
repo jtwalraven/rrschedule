@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>Round Robin Calculator</title>
-    <style src="./stylesheets/main.css" rel="stylesheet" type="text/css"></style>
+    <link href="stylesheets/main.css" rel="stylesheet" type="text/css"></link>
+    <link href="stylesheets/process-table.css" rel="stylesheet" type="text/css"></link>
   </head>
   <body>
-    <table style="width:100%">
-      <tr>
+    <label>Time Quantum <input type="number" id="time-quantum" value="1" min="0"></label>
+    <table id="process-table">
+      <tr class="table-header">
         <th>Process</th>
         <th>Burst Time</th>
         <th>Arrival Time</th>
       </tr>
-      <tr>
-        <td>P1</td>
-        <td>30</td>
-        <td>50</td>
-      </tr>
     </table> 
+    <button type="button" id="add-process-button">Add Process</button>
+    <button type="button" id="delete-process-button">Delete Process</button>
+    <script src="js/process-table.js"></script>
   </body>
 </html>
 

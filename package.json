@@ -4,5 +4,8 @@
   "main"    : "main.js",
   "scripts": {
       "start": "electron ."
+  },
+  "dependencies": {
+    "bootstrap": "3.3.7"
   }
 }
