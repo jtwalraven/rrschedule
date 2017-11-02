@@ -9,10 +9,16 @@
   </head>
   <body>
       <div class="container">
+        <h1>Round Robin Calculator</h1>
         <div class="row">
-          <label>Time Quantum <input type="number" id="time-quantum" value="1" min="0"></label>
-          <button type="button" class="btn btn-default" id="add-process-button">Add Process</button>
-          <button type="button" class="btn btn-default" id="delete-process-button">Delete Process</button>
+          <p>
+            <div class="form-group">
+              <label for="time-quantum">Time Quantum</label>
+              <input type="number" class="form-control" id="time-quantum" value="1" min="0">
+            </div>
+            <button type="button" class="btn btn-primary" id="add-process-button">Add Process</button>
+            <button type="button" class="btn btn-danger" id="delete-process-button">Delete Process</button>
+          </p>
         </div>
         <div class="row">
           <div class="col-md-6">
