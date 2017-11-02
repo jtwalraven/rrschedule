@@ -24,37 +24,49 @@ function init() {
 function selectProcessTableElement(event) {
     if (this == processTableElements[0]) return;
     if ((event.ctrlKey || event.metaKey) || event.shiftKey) {
-        this.classList.add("highlight");
+        this.classList.add("info");
     } else {
         for (var i = 0; i < processTableElements.length; i++) {
-            processTableElements[i].classList.remove("highlight");
+            processTableElements[i].classList.remove("info");
         }
-        this.classList.add("highlight");
+        this.classList.add("info");
     }
 }
 
 function addProcessButtonClicked() {
     var tableRow = document.createElement("tr");
-    tableRow.setAttribute("contenteditable", true);
     tableRow.addEventListener("click", selectProcessTableElement);
     processTable.appendChild(tableRow);
 
     var processName = document.createElement("td");
     processName.innerText = "P" + (processTableElements.length - 1);
+    processName.setAttribute("contenteditable", true);
     tableRow.appendChild(processName);
 
     var burstTime = document.createElement("td");
     burstTime.innerText = "0";
+    burstTime.setAttribute("contenteditable", true);
     tableRow.appendChild(burstTime);
 
     var arrivalTime = document.createElement("td");
     arrivalTime.innerText = "0";
+    arrivalTime.setAttribute("contenteditable", true);
     tableRow.appendChild(arrivalTime);
+
+    var turnaroundTime = document.createElement("td");
+    turnaroundTime.innerText = "0";
+    turnaroundTime.classList.add("active");
+    tableRow.appendChild(turnaroundTime);
+
+    var waitingTime = document.createElement("td");
+    waitingTime.innerText = "0";
+    waitingTime.classList.add("active");
+    tableRow.appendChild(waitingTime);
 }
 
 
 function deleteProcessButtonClicked() {
-    var highlightProcesses = processTable.getElementsByClassName("highlight");
+    var highlightProcesses = processTable.getElementsByClassName("info");
     while(highlightProcesses.length > 0){
         highlightProcesses[0].parentNode.removeChild(highlightProcesses[0]);
     }
