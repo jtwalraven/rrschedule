@@ -6,6 +6,8 @@
       "start": "electron ."
   },
   "dependencies": {
+    "d3": "3.5.17",
+    "d3-eventline": "git@github.com:JTWalraven/d3-eventline.git",
     "bootstrap": "3.3.7"
   }
 }

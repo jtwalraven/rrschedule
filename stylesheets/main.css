@@ -1,0 +1,80 @@
+
+#yearline .background {
+    fill: none;
+}
+
+#yearline .grid {
+    fill: #fff;
+    shape-rendering: crispEdges;
+    stroke: #ddd;
+}
+
+#yearline .label {
+    alignment-baseline: central;
+    fill: #777;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+#yearline .axis path,
+#yearline .axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+    stroke: #ddd;
+}
+#yearline .axis text {
+    fill: #777;
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+#yearline .event {
+    fill: #8A2BE2;
+    fill-opacity: 0.5;
+    shape-rendering: crispEdges;
+    stroke: #000;
+}
+#yearline .event.focus {
+    fill: #4B0082;
+    fill-opacity: 0.7;
+}
+
+#gantt-chart .background {
+    fill: none;
+}
+
+#gantt-chart .grid {
+    fill: #fff;
+    shape-rendering: crispEdges;
+    stroke: #ddd;
+}
+
+#gantt-chart .label {
+    alignment-baseline: central;
+    fill: #777;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+#gantt-chart .axis path,
+#gantt-chart .axis line {
+    fill: none;
+    shape-rendering: crispEdges;
+    stroke: #ddd;
+}
+#gantt-chart .axis text {
+    fill: #777;
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+#gantt-chart .event {
+    fill: #3CB371;
+    fill-opacity: 0.5;
+    shape-rendering: crispEdges;
+    stroke: #000;
+}
+#gantt-chart .event.focus {
+    fill: #2E8B57;
+    fill-opacity: 0.7;
+}
