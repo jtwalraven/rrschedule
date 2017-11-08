@@ -1,0 +1,7 @@
+.process-table-controls {
+    min-height: 45px;
+}
+
+.process-table-controls > .button-row {
+    float: right;
+}

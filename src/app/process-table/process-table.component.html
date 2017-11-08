@@ -1,4 +1,12 @@
-<mat-table #table [dataSource]="dataSource">
+<mat-card class="spaced-card">
+  <div class="process-table-controls">
+    <div class="button-row">
+      <button mat-button>Add Process</button>
+      <button mat-button>Remove Process</button>
+    </div>
+  </div>
+
+  <mat-table #table [dataSource]="dataSource">
 
     <!-- Position Column -->
     <ng-container matColumnDef="position">
@@ -26,16 +34,18 @@
 
     <!-- Turnaround Time Column -->
     <ng-container matColumnDef="turnaroundTime">
-      <mat-header-cell *matHeaderCellDef> Turnaround Time </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Turnaround Time (Calculated)</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.turnaroundTime}} </mat-cell>
     </ng-container>
 
     <!-- Waiting Time Column -->
     <ng-container matColumnDef="waitingTime">
-      <mat-header-cell *matHeaderCellDef> Waiting Time </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Waiting Time (Calculated)</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.waitingTime}} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+
+</mat-card>
