@@ -21,7 +21,8 @@ import { TimeQuantumComponent } from './time-quantum/time-quantum.component';
     md.MatInputModule,
     md.MatCardModule,
     md.MatButtonModule,
-    md.MatTableModule
+    md.MatTableModule,
+    md.MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

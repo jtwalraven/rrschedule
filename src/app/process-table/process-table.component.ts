@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./process-table.component.css']
 })
 export class ProcessTableComponent implements OnInit {
-  displayedColumns = ['position', 'process', 'burstTime', 'arrivalTime', 'turnaroundTime', 'waitingTime'];
+  displayedColumns = ['selected', 'position', 'process', 'burstTime', 'arrivalTime', 'turnaroundTime', 'waitingTime'];
   processDatabase = new ProcessDatabase();
   dataSource: ProcessTableDataSource | null;
 

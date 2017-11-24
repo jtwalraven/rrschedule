@@ -8,6 +8,12 @@
 
   <mat-table #table [dataSource]="dataSource">
 
+    <!-- Selected Column -->
+    <ng-container matColumnDef="selected">
+      <mat-header-cell *matHeaderCellDef> Selected </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <mat-checkbox [(ngModel)]="element.selected"></mat-checkbox> </mat-cell>
+    </ng-container>
+
     <!-- Position Column -->
     <ng-container matColumnDef="position">
       <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
@@ -45,7 +51,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)" [ngClass]="{'selected': row.selected}"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
 </mat-card>
