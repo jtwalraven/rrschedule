@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RoundRobinCalcService } from '../roundrobin-calc.service';
 
 @Component({
   selector: 'app-time-quantum',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimeQuantumComponent implements OnInit {
 
-  constructor() { }
+  timeQuantum: number = 1;
+
+  constructor(private calcService: RoundRobinCalcService) {}
 
   ngOnInit() {
+    this.calcService.currentTimeQuantum.subscribe(tq => this.timeQuantum = tq);
+  }
+
+  updateValue() {
+    this.calcService.changeTimeQuantum(this.timeQuantum);
   }
 
 }

@@ -1,6 +1,6 @@
-<mat-card class="spaced-card"> 
+<mat-card class="spaced-card">
   <mat-form-field class="time-quatum-form">
-    <input type="number" matInput placeholder="Time Quantum" value="1" min="1" max="1000">
+    <input type="number" matInput [value]="timeQuantum" (input)="updateValue()" placeholder="Time Quantum">
   </mat-form-field>
 </mat-card>
 

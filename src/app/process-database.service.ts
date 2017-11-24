@@ -38,8 +38,8 @@ export class ProcessDatabase {
       process: "P" + position,
       burstTime: 1,
       arrivalTime: 1,
-      turnaroundTime: 1,
-      waitingTime: 1
+      turnaroundTime: 0,
+      waitingTime: 0
     };
   }
 }
