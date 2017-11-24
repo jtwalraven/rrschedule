@@ -5,3 +5,7 @@
 .process-table-controls > .button-row {
     float: right;
 }
+
+mat-row.selected {
+  background-color: yellow;
+}

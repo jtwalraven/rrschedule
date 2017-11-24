@@ -21,9 +21,22 @@ export class ProcessTableComponent implements OnInit {
     this.dataSource = new ProcessTableDataSource(this.processDatabase);
   }
 
+  addProcess() {
+    this.processDatabase.addProcess();
+  }
+
+  removeProcess() {
+    this.processDatabase.removeSelectedProcesses();
+  }
+
+  selectRow(row) {
+    row.selected = !row.selected;
+  }
+
 }
 
 export interface ProcessEntry {
+  selected: boolean;
   position: number;
   process: string;
   burstTime: number;
@@ -36,10 +49,7 @@ export class ProcessDatabase {
   dataChange: BehaviorSubject<ProcessEntry[]> = new BehaviorSubject<ProcessEntry[]>([]);
   get data(): ProcessEntry[] { return this.dataChange.value; }
 
-  constructor() {
-    // Fill up the database with 10 processes.
-    for (let i = 0; i < 10; i++) { this.addProcess(); }
-  }
+  constructor() {}
 
   addProcess() {
     const copiedData = this.data.slice();
@@ -47,10 +57,28 @@ export class ProcessDatabase {
     this.dataChange.next(copiedData);
   }
 
+  removeProcess(process: ProcessEntry) {
+    console.log("Remove process");
+    const copiedData = this.data.slice();
+    const index: number = copiedData.indexOf(process);
+    if (index !== -1) {
+        copiedData.splice(index, 1);
+    }
+    this.dataChange.next(copiedData);
+  }
+
+  removeSelectedProcesses() {
+    for (let process of this.data.slice()) {
+      if (process.selected) this.removeProcess(process);
+    }
+  }
+
   private createNewProcess() {
+    let position = this.data.slice().length;
     return {
-      position: 1,
-      process: "P1",
+      selected: false,
+      position: position,
+      process: "P" + position,
       burstTime: 1,
       arrivalTime: 1,
       turnaroundTime: 1,
