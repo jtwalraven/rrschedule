@@ -58,7 +58,6 @@ export class ProcessDatabase {
   }
 
   removeProcess(process: ProcessEntry) {
-    console.log("Remove process");
     const copiedData = this.data.slice();
     const index: number = copiedData.indexOf(process);
     if (index !== -1) {
