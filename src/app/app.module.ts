@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ProcessTableComponent } from './process-table/process-table.component';
@@ -16,6 +17,7 @@ import { TimeQuantumComponent } from './time-quantum/time-quantum.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     md.MatInputModule,
     md.MatCardModule,
     md.MatButtonModule,

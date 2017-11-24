@@ -17,19 +17,19 @@
     <!-- Process Column -->
     <ng-container matColumnDef="process">
       <mat-header-cell *matHeaderCellDef> Process </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.process}} </mat-cell>
+      <mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.process"/> </mat-cell>
     </ng-container>
 
     <!-- Burst Time Column -->
     <ng-container matColumnDef="burstTime">
       <mat-header-cell *matHeaderCellDef> Burst Time </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.burstTime}} </mat-cell>
+      <mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.burstTime"/> </mat-cell>
     </ng-container>
 
     <!-- Arrival Time Column -->
     <ng-container matColumnDef="arrivalTime">
       <mat-header-cell *matHeaderCellDef> Arrival Time </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.arrivalTime}} </mat-cell>
+      <mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.arrivalTime"/> </mat-cell>
     </ng-container>
 
     <!-- Turnaround Time Column -->
