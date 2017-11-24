@@ -7,12 +7,16 @@ import { ProcessTableComponent } from './process-table/process-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as md from './material-design';
 import { TimeQuantumComponent } from './time-quantum/time-quantum.component';
+import { ResultsComponent } from './results/results.component';
+
+import { D3Service } from 'd3-ng2-service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProcessTableComponent,
-    TimeQuantumComponent
+    TimeQuantumComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,7 @@ import { TimeQuantumComponent } from './time-quantum/time-quantum.component';
     md.MatTableModule,
     md.MatCheckboxModule
   ],
-  providers: [],
+  providers: [D3Service],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
