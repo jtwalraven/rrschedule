@@ -20,10 +20,9 @@ export class ResultsComponent implements OnInit {
     let d3 = this.d3;
     let svg: Selection<any, any, any, any>;
 
-    let name: string;
     let yVal: number;
     let colors: any = [];
-    let data: {name: string, yVal: number}[] = [];
+    let data: {xVal: number, yVal: number}[] = [];
     let padding: number = 25;
     let width: number = 500;
     let height: number = 150;
@@ -51,8 +50,8 @@ export class ResultsComponent implements OnInit {
           .domain(data.map(function(d){ return d.xVal; }))
           .range([0, 200]);
 
-      yScale = d3.scaleBand()
-          .domain([0,d3.max(data, function(d) {return d.yVal})])
+      yScale = d3.scaleLinear()
+          .domain(data.map(function(d){ return d.yVal; }))
           .range([100, 0]);
 
       xAxis = d3.axisBottom(xScale)
