@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { D3Service, D3, Selection } from 'd3-ng2-service';
+import { RoundRobinCalcService } from '../roundrobin-calc.service';
 
 @Component({
   selector: 'app-results',
@@ -10,10 +11,12 @@ export class ResultsComponent implements OnInit {
 
   private d3: D3;
   private parentNativeElement: any;
+  private rrcalc: RoundRobinCalcService;
 
-  constructor(element: ElementRef, d3Service: D3Service) {
+  constructor(element: ElementRef, d3Service: D3Service, rrcalcService: RoundRobinCalcService) {
     this.d3 = d3Service.getD3();
     this.parentNativeElement = element.nativeElement;
+    this.rrcalc = rrcalcService;
   }
 
   ngOnInit() {
@@ -93,6 +96,10 @@ export class ResultsComponent implements OnInit {
             return colors[i];
           });
     }
+  }
+
+  calculate() {
+    this.rrcalc.calculateRoundRobin();
   }
 
 }
