@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { D3Service, D3, Selection } from 'd3-ng2-service';
+import { RoundRobinCalcService } from '../roundrobin-calc.service'
 
 @Component({
   selector: 'app-results',
@@ -10,14 +11,24 @@ export class ResultsComponent implements OnInit {
 
   private d3: D3;
   private parentNativeElement: any;
-  private rrcalc: RoundRobinCalcService;
+  private calcService: RoundRobinCalcService;
+  private averageWaitingTime: number;
+  private averageTurnaroundTime: number;
 
-  constructor(element: ElementRef, d3Service: D3Service) {
+  constructor(element: ElementRef, d3Service: D3Service, calcService: RoundRobinCalcService) {
     this.d3 = d3Service.getD3();
     this.parentNativeElement = element.nativeElement;
+    this.calcService = calcService;
   }
 
   ngOnInit() {
+    this.calcService.currentAverageWaitingTime.subscribe(awt => this.averageWaitingTime = awt);
+    this.calcService.currentAverageTurnaroundTime.subscribe(att => this.averageTurnaroundTime = att);
+
+    this.drawChart();
+  }
+
+  drawChart() {
     let d3 = this.d3;
     let svg: Selection<any, any, any, any>;
 

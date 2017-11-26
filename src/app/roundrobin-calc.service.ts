@@ -12,6 +12,12 @@ export class RoundRobinCalcService {
   private timeQuantumSource = new BehaviorSubject<number>(1);
   currentTimeQuantum = this.timeQuantumSource.asObservable();
 
+  private averageWaitingTimeSource = new BehaviorSubject<number>(1);
+  currentAverageWaitingTime = this.averageWaitingTimeSource.asObservable();
+
+  private averageTurnaroundTimeSource = new BehaviorSubject<number>(1);
+  currentAverageTurnaroundTime = this.averageTurnaroundTimeSource.asObservable();
+
   private processDatabase = new ProcessDatabase();
 
   constructor(database: ProcessDatabase) {
@@ -30,6 +36,8 @@ export class RoundRobinCalcService {
     let processQueue = new Collections.Queue<ProcessCalculationEntry>();
     let time: number = 0;
     let greatestArrivalTime: number = this.calculateGreatestArrivalTime();
+    let totalWaitingTime: number = 0;
+    let totalTurnaroundTime: number = 0;
 
     while(processQueue.size() > 0 || time <= greatestArrivalTime) {
       for (let process of processEntries) {
@@ -49,10 +57,15 @@ export class RoundRobinCalcService {
           let processEntry = currentProcess.processEntry;
           processEntry.waitingTime = this.calculateWaitingTime(time, processEntry.arrivalTime);
           processEntry.turnaroundTime = this.calculateTurnaroundTime(processEntry.waitingTime, currentProcess.timeLeft);
+          totalWaitingTime += processEntry.waitingTime;
+          totalTurnaroundTime += processEntry.turnaroundTime;
         }
       }
       time++;
     }
+
+    this.averageWaitingTimeSource.next(totalWaitingTime / processEntries.length);
+    this.averageTurnaroundTimeSource.next(totalTurnaroundTime / processEntries.length);
   }
 
   private calculateGreatestArrivalTime(): number {
@@ -73,5 +86,6 @@ export class RoundRobinCalcService {
   private calculateTurnaroundTime(waitingTime: number, timeLeft: number): number {
     return waitingTime + timeLeft;
   }
+
 }
 
