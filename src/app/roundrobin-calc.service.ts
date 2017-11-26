@@ -30,30 +30,29 @@ export class RoundRobinCalcService {
     let time: number = 0;
     let greatestArrivalTime: number = this.calculateGreatestArrivalTime();
 
-    while(processQueue.size() > 0 || time < greatestArrivalTime) {
+    console.log("Greatest arrival time = " + greatestArrivalTime);
+    while(processQueue.size() > 0 || time <= greatestArrivalTime) {
       for (let process of processEntries) {
         if (process.arrivalTime == time) {
           let processCalcEntry: ProcessCalculationEntry = new ProcessCalculationEntry(process, process.burstTime);
           processCalcEntry.processEntry = process;
           processCalcEntry.timeLeft = process.burstTime;
-          processQueue.enqueue(process);
+          processQueue.enqueue(processCalcEntry);
         }
       }
-      let currentProcess = processQueue.dequeue();
-      if (currentProcess.timeLeft - timeQuantum > 0) {
-        currentProcess.timeLeft -= timeQuantum;
-        processQueue.enqueue(currentProcess);
-      } else {
-        let processEntry = currentProcess.processEntry;
-        processEntry.waitingTime = this.calculateWaitingTime(time, processEntry.arrivalTime);
-        processEntry.turnaroundTime = this.calculateTurnAroundTime(processEntry.waitingTime, currentProcess.timeLeft);
-        console.log(processEntry);
+      if (processQueue.size() > 0) {
+        let currentProcess = processQueue.dequeue();
+        if (currentProcess.timeLeft - timeQuantum > 0) {
+          currentProcess.timeLeft -= timeQuantum;
+          processQueue.enqueue(currentProcess);
+        } else {
+          let processEntry = currentProcess.processEntry;
+          processEntry.waitingTime = this.calculateWaitingTime(time, processEntry.arrivalTime);
+          processEntry.turnaroundTime = this.calculateTurnaroundTime(processEntry.waitingTime, currentProcess.timeLeft);
+        }
       }
       time++;
     }
-
-    console.log(timeQuantum);
-    console.log(processEntries);
   }
 
   private calculateGreatestArrivalTime(): number {
@@ -64,6 +63,7 @@ export class RoundRobinCalcService {
         greatestArrivalTime = process.arrivalTime;
       }
     }
+    return greatestArrivalTime;
   }
 
   private calculateWaitingTime(finalStartTime: number, arrivalTime: number): number {
