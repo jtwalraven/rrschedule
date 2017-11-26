@@ -29,13 +29,13 @@
     <!-- Burst Time Column -->
     <ng-container matColumnDef="burstTime">
       <mat-header-cell *matHeaderCellDef> Burst Time </mat-header-cell>
-      <mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.burstTime"/> </mat-cell>
+      <mat-cell *matCellDef="let element"> <input matInput type="number" min="1" max="1000" [(ngModel)]="element.burstTime" (input)="calculateUpdates()"/> </mat-cell>
     </ng-container>
 
     <!-- Arrival Time Column -->
     <ng-container matColumnDef="arrivalTime">
       <mat-header-cell *matHeaderCellDef> Arrival Time </mat-header-cell>
-      <mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.arrivalTime"/> </mat-cell>
+      <mat-cell *matCellDef="let element"> <input matInput type="number" min="1" max="1000" [(ngModel)]="element.arrivalTime" (input)="calculateUpdates()"/> </mat-cell>
     </ng-container>
 
     <!-- Turnaround Time Column -->

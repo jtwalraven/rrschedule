@@ -1,6 +1,6 @@
 <mat-card class="spaced-card">
   <mat-form-field class="time-quatum-form">
-    <input type="number" matInput [(ngModel)]="timeQuantum" (input)="updateValue()" placeholder="Time Quantum">
+    <input type="number" min="1" max="1000" matInput [(ngModel)]="timeQuantum" (input)="updateValue()" placeholder="Time Quantum">
   </mat-form-field>
 </mat-card>
 

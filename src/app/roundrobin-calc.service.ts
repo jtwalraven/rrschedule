@@ -20,6 +20,7 @@ export class RoundRobinCalcService {
 
   changeTimeQuantum(timeQuantum: number) {
     this.timeQuantumSource.next(timeQuantum);
+    if (timeQuantum > 0 && timeQuantum < 1000) this.calculateRoundRobin();
   }
 
   calculateRoundRobin() {
@@ -30,7 +31,6 @@ export class RoundRobinCalcService {
     let time: number = 0;
     let greatestArrivalTime: number = this.calculateGreatestArrivalTime();
 
-    console.log("Greatest arrival time = " + greatestArrivalTime);
     while(processQueue.size() > 0 || time <= greatestArrivalTime) {
       for (let process of processEntries) {
         if (process.arrivalTime == time) {

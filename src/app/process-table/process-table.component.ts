@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { ProcessDatabase } from '../process-database.service'
+import { RoundRobinCalcService } from '../roundrobin-calc.service'
 import { ProcessEntry } from '../process-entry'
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
@@ -13,11 +14,13 @@ import 'rxjs/add/operator/map';
 })
 export class ProcessTableComponent implements OnInit {
   displayedColumns = ['selected', 'position', 'process', 'burstTime', 'arrivalTime', 'turnaroundTime', 'waitingTime'];
-  processDatabase = new ProcessDatabase();
-  dataSource: ProcessTableDataSource | null;
+  private processDatabase = new ProcessDatabase();
+  private calcluationService: RoundRobinCalcService;
+  private dataSource: ProcessTableDataSource | null;
 
-  constructor(private database: ProcessDatabase) {
+  constructor(database: ProcessDatabase, calcService: RoundRobinCalcService) {
     this.processDatabase = database;
+    this.calcluationService = calcService;
   }
 
   ngOnInit() {
@@ -34,6 +37,10 @@ export class ProcessTableComponent implements OnInit {
 
   selectRow(row) {
     row.selected = !row.selected;
+  }
+
+  calculateUpdates() {
+    this.calcluationService.calculateRoundRobin();
   }
 
 }
