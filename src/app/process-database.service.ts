@@ -39,7 +39,9 @@ export class ProcessDatabase {
       burstTime: 1,
       arrivalTime: 1,
       turnaroundTime: 0,
-      waitingTime: 0
+      waitingTime: 0,
+      timeStarts: [],
+      timeEnds: []
     };
   }
 }

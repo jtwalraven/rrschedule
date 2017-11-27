@@ -22,17 +22,27 @@ export class RoundRobinCalcService {
 
   constructor(database: ProcessDatabase) {
     this.processDatabase = database;
+    this.processDatabase.dataChange.asObservable().subscribe(data => this.calculateRoundRobinWithProcessEntries(data));
+    this.currentTimeQuantum.subscribe(timeQuantum => this.calculateRoundRobinWithTimeQuantum(timeQuantum));
   }
 
   changeTimeQuantum(timeQuantum: number) {
-    this.timeQuantumSource.next(timeQuantum);
-    if (timeQuantum > 0 && timeQuantum < 1000) this.calculateRoundRobin();
+    if (timeQuantum > 0 && timeQuantum < 1000) {
+      this.timeQuantumSource.next(timeQuantum);
+    }
   }
 
-  calculateRoundRobin() {
-    const timeQuantum = this.timeQuantumSource.value;
+  calculateRoundRobinWithTimeQuantum(timeQuantum: number) {
     let processEntries = this.processDatabase.data.slice();
+    this.calculateRoundRobin(timeQuantum, processEntries);
+  }
 
+  calculateRoundRobinWithProcessEntries(processEntries: ProcessEntry[]) {
+    let timeQuantum = this.timeQuantumSource.value;
+    this.calculateRoundRobin(timeQuantum, processEntries);
+  }
+
+  calculateRoundRobin(timeQuantum: number, processEntries: ProcessEntry[]) {
     let processQueue = new Collections.Queue<ProcessCalculationEntry>();
     let time: number = 0;
     let greatestArrivalTime: number = this.calculateGreatestArrivalTime();
@@ -46,19 +56,26 @@ export class RoundRobinCalcService {
           processCalcEntry.processEntry = process;
           processCalcEntry.timeLeft = process.burstTime;
           processQueue.enqueue(processCalcEntry);
+
+          // Clear the time starts and ends arrays
+          processCalcEntry.processEntry.timeStarts = [];
+          processCalcEntry.processEntry.timeEnds = [];
         }
       }
       if (processQueue.size() > 0) {
         let currentProcess = processQueue.dequeue();
+        currentProcess.processEntry.timeStarts.push(time);
         if (currentProcess.timeLeft - timeQuantum > 0) {
           currentProcess.timeLeft -= timeQuantum;
           processQueue.enqueue(currentProcess);
+          currentProcess.processEntry.timeEnds.push(time + timeQuantum);
         } else {
           let processEntry = currentProcess.processEntry;
           processEntry.waitingTime = this.calculateWaitingTime(time, processEntry.arrivalTime);
           processEntry.turnaroundTime = this.calculateTurnaroundTime(processEntry.waitingTime, currentProcess.timeLeft);
           totalWaitingTime += processEntry.waitingTime;
           totalTurnaroundTime += processEntry.turnaroundTime;
+          processEntry.timeEnds.push(time + currentProcess.timeLeft);
         }
       }
       time++;

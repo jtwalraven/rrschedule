@@ -6,4 +6,6 @@ export interface ProcessEntry {
   arrivalTime: number;
   turnaroundTime: number;
   waitingTime: number;
+  timeStarts: number[];
+  timeEnds: number[];
 }

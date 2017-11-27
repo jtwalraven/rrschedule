@@ -40,7 +40,7 @@ export class ProcessTableComponent implements OnInit {
   }
 
   calculateUpdates() {
-    this.calcluationService.calculateRoundRobin();
+    //this.calcluationService.calculateRoundRobin();
   }
 
 }
