@@ -38,23 +38,85 @@ export class ResultsComponent implements OnInit {
 
   drawChart() {
     let d3 = this.d3;
-    let svg: Selection<any, any, any, any>;
-
-    let yVal: number;
-    let colors: any = [];
     let data: {name: string, startTime: number, endTime: number}[] = [];
     let processes: string[] = [];
-    let padding: number = 25;
-    let width: number = 500;
-    let height: number = 150;
-    let xScale: any;
-    let xColor: any;
-    let xAxis: any;
-    let yAxis: any;
 
     if (this.parentNativeElement !== null) {
 
       // TODO: Subscribe to time quantum update
+
+      const width = 960;
+      const height = 480;
+
+      let svg = d3.select('#chart')
+        .append('svg')
+          .attr('width', width)
+          .attr('height', height);
+
+      let plotMargins = {
+        top: 30,
+        bottom: 30,
+        left: 150,
+        right: 30
+      };
+      let plotGroup = svg.append('g')
+        .classed('plot', true)
+        .attr('transform', `translate(${plotMargins.left},${plotMargins.top})`);
+
+      let plotWidth = width - plotMargins.left - plotMargins.right;
+      let plotHeight = height - plotMargins.top - plotMargins.bottom;
+
+      let xScale = d3.scaleLinear()
+        .range([0, plotWidth])
+        .domain([1, d3.max(data, (d) => d.endTime)]);
+      let xAxis = d3.axisBottom(xScale);
+      let xAxisGroup = plotGroup.append('g')
+        .classed('x', true)
+        .classed('axis', true)
+        .attr('transform', `translate(${0},${plotHeight})`)
+        .call(xAxis);
+
+      let yScale = d3.scaleLinear()
+        .range([plotHeight, 0])
+        .domain([0, 100]);
+      let yAxis = d3.axisLeft(yScale);
+      let yAxisGroup = plotGroup.append('g')
+        .classed('y', true)
+        .classed('axis', true)
+        .call(yAxis);
+
+      let processGroup = plotGroup.append('g')
+        .classed('process', true);
+
+      let update = function() {
+        let xScale = d3.scaleLinear()
+          .range([0, plotWidth])
+          .domain([0, d3.max(data, (d) => d.endTime)]);
+        let xAxis = d3.axisBottom(xScale);
+        xAxisGroup.call(xAxis);
+
+
+        var dataBound = processGroup.selectAll('.process')
+          .data(data);
+
+        dataBound
+          .exit()
+          .remove();
+
+        var enterSelection = dataBound
+          .enter()
+            .append('g')
+            .classed('process', true);
+
+        enterSelection.merge(dataBound)
+          .attr('transform', (d, i) => `translate(${xScale(d.startTime)},${yScale(1)})`);
+
+        enterSelection.append('rect')
+          .attr('height', 2)
+          .attr('width', (d) => xScale(d.endTime - d.startTime))
+          .style('fill', 'red');
+      }
+
       this.processDatabase.dataChange.asObservable().subscribe(nwData => {
         data = [];
         processes = [];
@@ -68,18 +130,12 @@ export class ResultsComponent implements OnInit {
             processes.push(processEntry.process);
           }
         }
-        console.log(data);
+        update();
       });
 
-      d3.select("#chart")
-        .selectAll("div")
-        .data(data)
-          .enter()
-          .append("div")
-          .style("width", function(d) { return (d.endTime - d.startTime) + "px"; })
-          .style("margin-left", function(d) { return (d.startTime + 8) + "px"; })
-          .text(function(d) { return d.startTime; });
+      update();
     }
+
   }
 
 }
