@@ -43,10 +43,9 @@ export class ResultsComponent implements OnInit {
 
     if (this.parentNativeElement !== null) {
 
-      // TODO: Subscribe to time quantum update
-
       const width = 960;
       const height = 480;
+      const rectHeight = 10;
 
       let svg = d3.select('#chart')
         .append('svg')
@@ -68,7 +67,7 @@ export class ResultsComponent implements OnInit {
 
       let xScale = d3.scaleLinear()
         .range([0, plotWidth])
-        .domain([1, d3.max(data, (d) => d.endTime)]);
+        .domain([0, d3.max(data, (d) => d.endTime)]);
       let xAxis = d3.axisBottom(xScale);
       let xAxisGroup = plotGroup.append('g')
         .classed('x', true)
@@ -76,9 +75,9 @@ export class ResultsComponent implements OnInit {
         .attr('transform', `translate(${0},${plotHeight})`)
         .call(xAxis);
 
-      let yScale = d3.scaleLinear()
-        .range([plotHeight, 0])
-        .domain([0, 100]);
+      let yScale = d3.scalePoint()
+        .range([0, plotHeight])
+        .domain(["P0"]);
       let yAxis = d3.axisLeft(yScale);
       let yAxisGroup = plotGroup.append('g')
         .classed('y', true)
@@ -89,9 +88,16 @@ export class ResultsComponent implements OnInit {
         .classed('process', true);
 
       let update = function() {
+        let yScale = d3.scalePoint()
+          .range([0, plotHeight])
+          .domain(data.map((d) => d.name));
+        let yAxis = d3.axisLeft(yScale);
+        yAxisGroup.call(yAxis);
+
         let xScale = d3.scaleLinear()
           .range([0, plotWidth])
-          .domain([0, d3.max(data, (d) => d.endTime)]);
+          .domain([0, d3.max(data, (d) => d.endTime)])
+          .nice();
         let xAxis = d3.axisBottom(xScale);
         xAxisGroup.call(xAxis);
 
@@ -109,11 +115,11 @@ export class ResultsComponent implements OnInit {
             .classed('process', true);
 
         enterSelection.merge(dataBound)
-          .attr('transform', (d, i) => `translate(${xScale(d.startTime)},${yScale(1)})`);
+          .attr('transform', (d, i) => `translate(${xScale(d.startTime)},${yScale(d.name) - rectHeight})`);
 
         enterSelection.append('rect')
-          .attr('height', 2)
-          .attr('width', (d) => xScale(d.endTime - d.startTime))
+          .attr('height', rectHeight)
+          .attr('width', (d) => (xScale(d.endTime - d.startTime)))
           .style('fill', 'red');
       }
 
