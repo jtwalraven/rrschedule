@@ -105,6 +105,8 @@ export class ResultsComponent implements OnInit {
         var dataBound = processGroup.selectAll('.process')
           .data(data);
 
+
+
         dataBound
           .exit()
           .remove();
@@ -115,12 +117,24 @@ export class ResultsComponent implements OnInit {
             .classed('process', true);
 
         enterSelection.merge(dataBound)
+          .transition()
+          .duration(500)
           .attr('transform', (d, i) => `translate(${xScale(d.startTime)},${yScale(d.name) - rectHeight})`);
 
-        enterSelection.append('rect')
+        var rect = processGroup.selectAll('.process').selectAll('rect').data(data);
+
+        rect.exit().remove();
+
+        rect.enter().append('rect')
           .attr('height', rectHeight)
           .attr('width', (d) => (xScale(d.endTime - d.startTime)))
-          .style('fill', 'red');
+          .style('fill', 'red')
+          .style('stroke', 'black')
+          .style("stroke-width", '1px');
+
+        rect.transition()
+          .duration(500)
+          .attr('width', (d) => (xScale(d.endTime - d.startTime)));
       }
 
       this.processDatabase.dataChange.asObservable().subscribe(nwData => {

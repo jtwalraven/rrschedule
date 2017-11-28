@@ -9,6 +9,10 @@ export class ProcessDatabase {
 
   constructor() { }
 
+  signalChange() {
+    this.dataChange.next(this.data.slice());
+  }
+
   addProcess() {
     const copiedData = this.data.slice();
     copiedData.push(this.createNewProcess());

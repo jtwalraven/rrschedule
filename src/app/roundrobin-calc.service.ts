@@ -23,18 +23,13 @@ export class RoundRobinCalcService {
   constructor(database: ProcessDatabase) {
     this.processDatabase = database;
     this.processDatabase.dataChange.asObservable().subscribe(data => this.calculateRoundRobinWithProcessEntries(data));
-    this.currentTimeQuantum.subscribe(timeQuantum => this.calculateRoundRobinWithTimeQuantum(timeQuantum));
   }
 
   changeTimeQuantum(timeQuantum: number) {
     if (timeQuantum > 0 && timeQuantum < 1000) {
       this.timeQuantumSource.next(timeQuantum);
+      this.processDatabase.signalChange();
     }
-  }
-
-  calculateRoundRobinWithTimeQuantum(timeQuantum: number) {
-    let processEntries = this.processDatabase.data.slice();
-    this.calculateRoundRobin(timeQuantum, processEntries);
   }
 
   calculateRoundRobinWithProcessEntries(processEntries: ProcessEntry[]) {
