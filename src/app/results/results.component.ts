@@ -55,7 +55,7 @@ export class ResultsComponent implements OnInit {
       let plotMargins = {
         top: 30,
         bottom: 30,
-        left: 150,
+        left: 30,
         right: 30
       };
       let plotGroup = svg.append('g')
